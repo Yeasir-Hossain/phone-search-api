@@ -31,15 +31,17 @@ const searchMobile = () => {
     }
 }
 
-// display mobile details
+// display mobile information
 const displayMobileinfo = mobiles => {
     const mobileinfo = document.getElementById('mobile-info');
     mobileinfo.textContent = '';
+    const Mobiledetails = document.getElementById('mobile-details');
+    Mobiledetails.textContent = '';
+    const mobiles20 = mobiles.slice(0, 20);
     if (mobiles.length == 0) {
         errors[1].style.display = 'block';
     }
-    mobiles.forEach(mobile => {
-        // console.log(meal);
+    mobiles20.forEach(mobile => {
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -48,9 +50,48 @@ const displayMobileinfo = mobiles => {
             <div class="card-body">
                 <h5 class="card-title">${mobile.phone_name}</h5>
                 <p class="card-text"> Brand:${mobile.brand}</p>
+                <button onclick="loadMobiledetails('${mobile.slug}')" type="button" class="btn btn-primary px-3">See More</button>
             </div>
         </div>
         `;
         mobileinfo.appendChild(div);
     })
+}
+
+// mobile details 
+const loadMobiledetails = mobileID => {
+    console.log(mobileID);
+    const url = `https://openapi.programming-hero.com/api/phone/${mobileID}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displayMobiledetails(data.data));
+}
+
+// display mobile details 
+const displayMobiledetails = features => {
+    const Mobiledetails = document.getElementById('mobile-details');
+    Mobiledetails.textContent = '';
+    const div = document.createElement('div');
+
+    if (features.mainFeatures.memory == undefined)
+        features.mainFeatures.memory = 'unknown'
+    if (features.mainFeatures.chipSet == undefined)
+        features.mainFeatures.chipSet = 'unknown'
+    if (features.mainFeatures.displaySize == undefined)
+        features.mainFeatures.displaySize = 'unknown'
+    if (features.releaseDate == undefined || features.releaseDate == '')
+        features.releaseDate = 'Release date not found'
+    div.classList.add('card');
+    div.innerHTML = `
+        <img src="${features.image}" class="card-img-top w-25 mx-auto" alt="...">
+        <div class="card-body">
+        <p class="card-text">
+        <h4>Features</h4>
+        <p>Memory: ${features.mainFeatures.memory}</p>
+        <p>Display: ${features.mainFeatures.displaySize}</p>
+        <p>Chipset: ${features.mainFeatures.chipSet}</p>
+        <p>${features.releaseDate}</p></p>
+    </div>
+    `;
+    Mobiledetails.appendChild(div);
 }
