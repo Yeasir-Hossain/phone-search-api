@@ -60,7 +60,6 @@ const displayMobileinfo = mobiles => {
 
 // mobile details 
 const loadMobiledetails = mobileID => {
-    console.log(mobileID);
     const url = `https://openapi.programming-hero.com/api/phone/${mobileID}`;
     fetch(url)
         .then(res => res.json())
@@ -72,15 +71,34 @@ const displayMobiledetails = features => {
     const Mobiledetails = document.getElementById('mobile-details');
     Mobiledetails.textContent = '';
     const div = document.createElement('div');
+    const para = document.createElement('p');
 
     if (features.mainFeatures.memory == undefined)
-        features.mainFeatures.memory = 'unknown'
+        features.mainFeatures.memory = 'Unknown';
+
     if (features.mainFeatures.chipSet == undefined)
-        features.mainFeatures.chipSet = 'unknown'
+        features.mainFeatures.chipSet = 'Unknown';
+
     if (features.mainFeatures.displaySize == undefined)
-        features.mainFeatures.displaySize = 'unknown'
+        features.mainFeatures.displaySize = 'Unknown';
+
     if (features.releaseDate == undefined || features.releaseDate == '')
         features.releaseDate = 'Release date not found'
+
+    // bonus part 
+    if (features.mainFeatures.sensors == undefined)
+        features.mainFeatures.sensors = 'Not available';
+
+    if (features.others == undefined)
+        features.others = 'Unknows'
+    else {
+        for (const [key, values] of Object.entries(features.others)) {
+            const element = document.createTextNode(`${key} : ${values}`);
+            para.appendChild(element);
+        }
+    }
+
+
     div.classList.add('card');
     div.innerHTML = `
         <img src="${features.image}" class="card-img-top w-25 mx-auto" alt="...">
@@ -90,8 +108,9 @@ const displayMobiledetails = features => {
         <p>Memory: ${features.mainFeatures.memory}</p>
         <p>Display: ${features.mainFeatures.displaySize}</p>
         <p>Chipset: ${features.mainFeatures.chipSet}</p>
+        <p>Sensors: ${features.mainFeatures.sensors}</p>
         <p>${features.releaseDate}</p></p>
-    </div>
     `;
+    div.lastChild.appendChild(para);
     Mobiledetails.appendChild(div);
 }
