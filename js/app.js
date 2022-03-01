@@ -37,25 +37,29 @@ const displayMobileinfo = mobiles => {
     mobileinfo.textContent = '';
     const Mobiledetails = document.getElementById('mobile-details');
     Mobiledetails.textContent = '';
+
     const mobiles20 = mobiles.slice(0, 20);
+
     if (mobiles.length == 0) {
         errors[1].style.display = 'block';
     }
+
     mobiles20.forEach(mobile => {
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
-        <div class="card h-100 border-0 shadow-lg">
-            <img src="${mobile.image}" class="card-img-top w-50 mx-auto" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">${mobile.phone_name}</h5>
-                <p class="card-text"> Brand:${mobile.brand}</p>
-                <button onclick="loadMobiledetails('${mobile.slug}')" type="button" class="btn btn-primary px-3">See More</button>
+            <div class="card h-100 border-0 shadow-lg">
+                <img src="${mobile.image}" class="card-img-top w-50 mx-auto" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${mobile.phone_name}</h5>
+                    <p class="card-text"> Brand:${mobile.brand}</p>
+                    <button onclick="loadMobiledetails('${mobile.slug}')" type="button" class="btn btn-primary px-3">See More</button>
+                </div>
             </div>
-        </div>
-        `;
+            `;
         mobileinfo.appendChild(div);
     })
+
 }
 
 // mobile details 
