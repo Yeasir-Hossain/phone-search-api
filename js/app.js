@@ -90,16 +90,16 @@ const displayMobiledetails = features => {
         features.mainFeatures.sensors = 'Not available';
 
     if (features.others == undefined)
-        features.others = 'Unknows'
+        features.others = 'Unknown'
     else {
         for (const [key, values] of Object.entries(features.others)) {
-            const element = document.createTextNode(`${key} : ${values}`);
+            const element = document.createTextNode(` ${key} : ${values} `);
             para.appendChild(element);
         }
     }
 
 
-    div.classList.add('card');
+    div.classList.add('card', 'border-0', 'rounded', 'shadow-md');
     div.innerHTML = `
         <img src="${features.image}" class="card-img-top w-25 mx-auto" alt="...">
         <div class="card-body">
